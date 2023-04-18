@@ -1,7 +1,6 @@
 package org.example;
 
 import java.util.*;
-import java.util.stream.IntStream;
 
 public class Solution {
     Meets meets;
@@ -23,7 +22,7 @@ public class Solution {
             Set<Meet> meets = new HashSet<>();
             for (int i = 0; i < line.length; i++) {
                 for (int j = i + 1; j < line.length; j++) {
-                    Meet meet = getMeet(line[i], line[j]);
+                    Meet meet = Meet.of(line[i], line[j]);
                     if (meet != null) {
                         meets.add(meet);
                     }
@@ -32,32 +31,7 @@ public class Solution {
             return meets;
         }
 
-        private Meet getMeet(int[] line1, int[] line2) {
-            long a, b, c, d, e, f;
-            a = line1[0];
-            b = line1[1];
-            c = line2[0];
-            d = line2[1];
-            e = line1[2];
-            f = line2[2];
-
-
-            long parent = a * d - b * c;
-            if (parent == 0) {
-                return null;
-            }
-
-            long xChild = b * f - e * d;
-            long yChild = e * c - a * f;
-
-            if (xChild % parent != 0 || yChild % parent != 0) {
-                return null;
-            }
-
-            return new Meet((int) (xChild / parent), (int) (yChild / parent));
-        }
-
-        public String[] coordinate() {
+        private String[] coordinate() {
             int[] area = getField(this);
 
             int xOffset = area[0];
@@ -90,7 +64,7 @@ public class Solution {
             sb.append('.');
         }
 
-        public boolean has(Meet meet) {
+        private boolean has(Meet meet) {
             return meets.contains(meet);
         }
 
@@ -123,6 +97,31 @@ public class Solution {
         public Meet(int x, int y) {
             this.x = x;
             this.y = y;
+        }
+
+        public static Meet of(int[] line1, int[] line2) {
+            long a, b, c, d, e, f;
+            a = line1[0];
+            b = line1[1];
+            c = line2[0];
+            d = line2[1];
+            e = line1[2];
+            f = line2[2];
+
+
+            long parent = a * d - b * c;
+            if (parent == 0) {
+                return null;
+            }
+
+            long xChild = b * f - e * d;
+            long yChild = e * c - a * f;
+
+            if (xChild % parent != 0 || yChild % parent != 0) {
+                return null;
+            }
+
+            return new Meet((int) (xChild / parent), (int) (yChild / parent));
         }
 
         @Override
