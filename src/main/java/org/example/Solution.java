@@ -64,15 +64,17 @@ public class Solution {
             int yOffset = area[1];
             int xLimit = area[2];
             int yLimit = area[3];
+            int height = yOffset - yLimit;
+            int width = xLimit - xOffset;
+            String[] res = new String[height + 1];
+            StringBuilder sb = new StringBuilder();
 
-            String[] res = new String[yOffset - yLimit + 1];
-            for (int y = 0; y <= yOffset - yLimit; y++) {
-                StringBuilder sb = new StringBuilder();
-
-                int finalY = y;
-                IntStream.range(0, xLimit - xOffset + 1).forEach(x -> print(xOffset, yOffset, finalY, sb, x));
-
+            for (int y = 0; y <= height; y++) {
+                for (int x = 0; x <= width; x++) {
+                    print(xOffset, yOffset, y, sb, x);
+                }
                 res[y] = sb.toString();
+                sb = new StringBuilder();
             }
 
             return res;
