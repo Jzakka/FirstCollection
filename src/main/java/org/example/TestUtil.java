@@ -20,14 +20,22 @@ public class TestUtil {
     }
 
     public <T> T run(Object target, String methodName, Object... params) throws Exception {
-        Class<?>[] paramTypes = Arrays.stream(params)
-                .map(p -> {
-                    Class<?> pClass = p.getClass();
-                    return wrapperToPrimitiveMap.getOrDefault(pClass, pClass);
-                })
-                .toArray(Class[]::new);
+        Method method;
+        try {
+            Class<?>[] paramTypes = Arrays.stream(params)
+                    .map(Object::getClass)
+                    .toArray(Class[]::new);
+            method = target.getClass().getDeclaredMethod(methodName, paramTypes);
 
-        Method method = target.getClass().getDeclaredMethod(methodName, paramTypes);
+        } catch (NoSuchMethodException e) {
+            Class<?>[] boxedParamTypes = Arrays.stream(params)
+                    .map(p -> {
+                        Class<?> pClass = p.getClass();
+                        return wrapperToPrimitiveMap.getOrDefault(pClass, pClass);
+                    })
+                    .toArray(Class[]::new);
+            method = target.getClass().getDeclaredMethod(methodName, boxedParamTypes);
+        }
         method.setAccessible(true);
         return (T) method.invoke(target, params);
     }

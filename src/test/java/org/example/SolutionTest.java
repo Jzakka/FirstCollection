@@ -16,11 +16,17 @@ class SolutionTest {
         int age2 = testUtil.run(new Person(), "getAge", 10); // 20 이 리턴됨
         int age3 = testUtil.run(new Person(), "getAge", 10, 20); // 40 이 리턴됨
         int age4 = testUtil.run(new Person(), "getAge", "100"); // 110 이 리턴됨
+        String name1 = testUtil.run(new Person(), "getName"); // "폴" 리턴
+        String name2 = testUtil.run(new Person(), "getName", "님"); // "폴님" 리턴
+        Person me = testUtil.run(new Person(), "getMe"); // person 객체가 리턴
 
         Assertions.assertThat(age1).isEqualTo(10);
         Assertions.assertThat(age2).isEqualTo(20);
         Assertions.assertThat(age3).isEqualTo(40);
         Assertions.assertThat(age4).isEqualTo(110);
+        Assertions.assertThat(name1).isEqualTo("폴");
+        Assertions.assertThat(name2).isEqualTo("폴님");
+        Assertions.assertThat(me).isOfAnyClassIn(Person.class);
     }
 
     @Test
