@@ -9,57 +9,7 @@ public class Solution {
     public String[] solution(int[][] line) {
         meets = new Meets(line);
 
-        return print(meets);
-    }
-
-    public String[] print(Meets meets) {
-        int xOffset, yOffset, xLimit, yLimit;
-        int[] area = getField(meets);
-
-        xOffset = area[0];
-        yOffset = area[1];
-        xLimit = area[2];
-        yLimit = area[3];
-
-        String[] res = new String[yOffset - yLimit + 1];
-        for (int y = 0; y <= yOffset - yLimit; y++) {
-            StringBuilder sb = new StringBuilder();
-
-            int finalY = y;
-            IntStream.range(0, xLimit - xOffset + 1).forEach(x -> print(xOffset, yOffset, finalY, sb, x));
-
-            res[y] = sb.toString();
-        }
-
-        return res;
-    }
-
-    private void print(int xOffset, int yOffset, int y, StringBuilder sb, int x) {
-        int originX = x + xOffset;
-        int originY = -y + yOffset;
-        if (isMeet(originX, originY)) {
-            sb.append('*');
-            return;
-        }
-        sb.append('.');
-    }
-
-    private boolean isMeet(int originX, int originY) {
-        return meets.has(new Meet(originX, originY));
-    }
-
-    public int[] getField(Meets meets) {
-        int xOffset = Integer.MAX_VALUE, yOffset = Integer.MIN_VALUE,
-                xLimit = Integer.MIN_VALUE, yLimit = Integer.MAX_VALUE;
-
-        for (Meet meet : meets) {
-            xOffset = Math.min(xOffset, meet.x);
-            yOffset = Math.max(yOffset, meet.y);
-            xLimit = Math.max(xLimit, meet.x);
-            yLimit = Math.min(yLimit, meet.y);
-        }
-
-        return new int[]{xOffset, yOffset, xLimit, yLimit};
+        return meets.coordinate();
     }
 
     static class Meets implements Iterable<Meet> {
@@ -107,8 +57,55 @@ public class Solution {
             return new Meet((int) (xChild / parent), (int) (yChild / parent));
         }
 
+        public String[] coordinate() {
+            int[] area = getField(this);
+
+            int xOffset = area[0];
+            int yOffset = area[1];
+            int xLimit = area[2];
+            int yLimit = area[3];
+
+            String[] res = new String[yOffset - yLimit + 1];
+            for (int y = 0; y <= yOffset - yLimit; y++) {
+                StringBuilder sb = new StringBuilder();
+
+                int finalY = y;
+                IntStream.range(0, xLimit - xOffset + 1).forEach(x -> print(xOffset, yOffset, finalY, sb, x));
+
+                res[y] = sb.toString();
+            }
+
+            return res;
+        }
+
+        private void print(int xOffset, int yOffset, int y, StringBuilder sb, int x) {
+            int originX = x + xOffset;
+            int originY = -y + yOffset;
+            if (has(new Meet(originX, originY))) {
+                sb.append('*');
+                return;
+            }
+            sb.append('.');
+        }
+
         public boolean has(Meet meet) {
             return meets.contains(meet);
+        }
+
+        public int[] getField(Meets meets) {
+            int xOffset = Integer.MAX_VALUE;
+            int yOffset = Integer.MIN_VALUE;
+            int xLimit = Integer.MIN_VALUE;
+            int yLimit = Integer.MAX_VALUE;
+
+            for (Meet meet : meets) {
+                xOffset = Math.min(xOffset, meet.x);
+                yOffset = Math.max(yOffset, meet.y);
+                xLimit = Math.max(xLimit, meet.x);
+                yLimit = Math.min(yLimit, meet.y);
+            }
+
+            return new int[]{xOffset, yOffset, xLimit, yLimit};
         }
 
         @Override
