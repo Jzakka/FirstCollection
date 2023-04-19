@@ -9,15 +9,10 @@ public class Solution {
     }
 
     public static class Hanoi {
-        private final int FROM;
-        private final int TO;
-        private final int n;
         private final List<int[]> paths = new ArrayList<>();
 
         public Hanoi(int from, int to, int n) {
-            this.FROM = from;
-            this.TO = to;
-            this.n = n;
+
 
             calculate(from,to,n);
         }
