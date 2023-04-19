@@ -1,4 +1,4 @@
-package org.example;
+package org.example.meet;
 
 import java.util.*;
 

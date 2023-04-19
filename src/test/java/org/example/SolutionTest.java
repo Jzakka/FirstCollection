@@ -1,9 +1,11 @@
 package org.example;
 
 import org.assertj.core.api.Assertions;
+import org.example.meet.Person;
+import org.example.meet.Point;
+import org.example.meet.Solution;
+import org.example.meet.TeacherSolution;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class SolutionTest {
 

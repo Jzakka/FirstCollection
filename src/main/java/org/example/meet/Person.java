@@ -1,4 +1,4 @@
-package org.example;
+package org.example.meet;
 
 public class Person{
     private int age = 10;
