@@ -86,6 +86,4 @@ public class TestUtil {
             generatePossibleParamTypes(paramTypes, index + 1, possibleParamTypesList);
         }
     }
-
-
 }
