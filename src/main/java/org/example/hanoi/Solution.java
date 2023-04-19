@@ -19,37 +19,20 @@ public class Solution {
             this.TO = to;
             this.n = n;
 
-            calculate();
+            calculate(from,to,n);
         }
 
-        private void calculate() {
+        private void calculate(int from, int to, int n) {
             if (n == 1) {
-                addPath(1, 3);
+                addPath(from, to);
+                return;
             }
-            if (FROM == 1 && TO == 2 && n == 2) {
-                addPath(1, 3);
-                addPath(1, 2);
-                addPath(3, 2);
-            }
-            if (FROM == 1 && TO == 3 && n == 2) {
-                addPath(1, 2);
-                addPath(1, 3);
-                addPath(2, 3);
-            }
-            if (FROM == 2 && TO == 1 && n == 2) {
-                addPath(2, 3);
-                addPath(2, 1);
-                addPath(3, 1);
-            }
-            if (FROM == 2 && TO == 3 && n == 2) {
 
-            }
-            if (FROM == 3 && TO == 1 && n == 2) {
+            int empty = 6 - (from + to);
 
-            }
-            if (FROM == 3 && TO == 2 && n == 2) {
-
-            }
+            calculate(from, empty, n - 1);
+            calculate(from, to, 1);
+            calculate(empty, to, n-1);
         }
 
         private void addPath(int from, int to) {
